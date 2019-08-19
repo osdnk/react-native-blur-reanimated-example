@@ -64,8 +64,6 @@ function runSpring(clock, value, velocity, dest) {
   ];
 }
 
-const ABV = Animated.createAnimatedComponent(BlurView)
-
 class Snappable extends Component {
   constructor(props) {
     super(props);
@@ -123,7 +121,7 @@ class Snappable extends Component {
   val = new Animated.Value(0);
 
   componentDidMount(): void {
-    console.warn(this.val.__nodeID)
+    // we need to be sure that node was created!
      setTimeout(() => this.ref.current.setNativeProps({ blurAmount: this.val.__nodeID }), 10)
 
   }
@@ -138,6 +136,7 @@ class Snappable extends Component {
         onHandlerStateChange={this._onGestureEvent}>
 
         <Animated.View style={{ transform: [{ translateX: this._transX }]}}>
+          {/* we need to bind node manually */}
           <Animated.Code exec={block([set(this.val, abs(this._transX)), this.val])}/>
           <View style={styles.box} >
 
