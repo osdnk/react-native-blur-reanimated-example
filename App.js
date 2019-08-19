@@ -13,6 +13,8 @@ import { BlurView } from "@react-native-community/blur";
 // }, 10);
 
 const {
+  abs,
+  block,
   set,
   cond,
   eq,
@@ -122,7 +124,7 @@ class Snappable extends Component {
 
   componentDidMount(): void {
     console.warn(this.val.__nodeID)
-     setTimeout(() => this.ref.current.setNativeProps({ blurAmount: this.val.__nodeID }), 40)
+     setTimeout(() => this.ref.current.setNativeProps({ blurAmount: this.val.__nodeID }), 10)
 
   }
 
@@ -136,8 +138,7 @@ class Snappable extends Component {
         onHandlerStateChange={this._onGestureEvent}>
 
         <Animated.View style={{ transform: [{ translateX: this._transX }]}}>
-          <Animated.Code exec={set(this.val, Animated.abs(this._transX))}/>
-          <Animated.Code exec={this.val}/>
+          <Animated.Code exec={block([set(this.val, abs(this._transX)), this.val])}/>
           <View style={styles.box} >
 
           <BlurView
